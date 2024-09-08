@@ -14,10 +14,6 @@ RUN yarn build
 
 FROM docker.io/library/nginx:alpine
 
-# Copy over certs
-COPY ./certs/ /etc/ssl/certs
-RUN update-ca-certificates
-
 # Copy over built files and host it.
 COPY --from=builder /code/dist/* /usr/share/nginx/html
 COPY --from=builder /code/nginx.conf /etc/nginx/nginx.conf
