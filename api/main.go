@@ -20,6 +20,7 @@ func main() {
     // Assign routes
     mux.Handle("/healthcheck", middleware.HandleWithMiddleware(
         http.HandlerFunc(routes.HealthcheckHandler),
+        middleware.CorsMiddleware,
         middleware.LogMiddleware,
     ));
 

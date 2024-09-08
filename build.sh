@@ -12,10 +12,9 @@
 # Returns:
 #     - N/A
 function buildContainer() {
-    cd $1
-    sudo podman build -t localhost/cs4389-$1 .
-    cd ../
+    sudo podman build -t localhost/cs4389-$1 -f $1/Dockerfile .
 }
 
 # Build containers
 buildContainer api
+buildContainer webapp

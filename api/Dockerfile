@@ -1,17 +1,13 @@
 FROM docker.io/library/golang:alpine as builder
 
-# Install deps and build ssl cert
+# Install deps
 RUN apk update && \
-    apk add --no-cache openssl binutils && \
-    mkdir -p /code && \
-    mkdir -p /certs && \
-    openssl req -x509 -nodes -days 365 -newkey rsa:2048 \
-    -keyout /certs/server.key -out /certs/server.crt \
-    -subj "/C=/ST=/L=/O=/CN="
+    apk add --no-cache binutils && \
+    mkdir -p /code
 
 # Copy over code and build the application
 WORKDIR /code
-COPY . .
+COPY ./api/ .
 RUN go build main.go && strip main
 
 FROM docker.io/library/alpine
@@ -21,7 +17,7 @@ RUN mkdir -p /code && \
 
 # Copy over needed files from builder
 WORKDIR /code
+COPY ./certs/ /certs
 COPY --from=builder /code/main apiServer
-COPY --from=builder /certs/* /certs
 
 CMD ["/code/apiServer"]
