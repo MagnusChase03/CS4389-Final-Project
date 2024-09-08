@@ -1,5 +1,6 @@
 services:
   api:
     image: "localhost/cs4389-api"
+    env_file: .env
     ports:
       - "8080:8080"
