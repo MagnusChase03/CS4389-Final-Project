@@ -48,6 +48,7 @@ func SendResponse(w http.ResponseWriter, data JSONResponse) error {
 func SendInternalServerError(w http.ResponseWriter, e error) {
     fmt.Fprintf(os.Stderr, "[ERROR] %v\n", e)
 
+    w.WriteHeader(http.StatusInternalServerError);
     w.Header().Set("Content-Type", "application/json");
     _ = json.NewEncoder(w).Encode(JSONResponse{
         StatusCode: 500,
