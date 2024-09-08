@@ -1,0 +1,5 @@
+services:
+  api:
+    image: "localhost/cs4389-api"
+    ports:
+      - "8080:8080"
