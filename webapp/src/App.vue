@@ -1,4 +1,5 @@
 <script setup>
+import Navbar from './components/Navbar.vue';
 import { ref } from 'vue';
 
 let status = ref("");
@@ -8,7 +9,8 @@ fetch(import.meta.env.VITE_API_URL + "/healthcheck").then((resp) => resp.json())
 </script>
 
 <template>
-    <h1>Status: {{ status }}</h1>
+<Navbar/>
+<h1>Status: {{ status }}</h1>
 </template>
 
 <style scoped>
