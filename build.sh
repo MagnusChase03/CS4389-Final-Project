@@ -19,6 +19,3 @@ function buildContainer() {
 
 # Build containers
 buildContainer api
-
-# Clean up old images
-sudo podman system prune -f

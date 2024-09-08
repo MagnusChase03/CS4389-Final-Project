@@ -1,4 +1,4 @@
-FROM docker.io/library/golang:alpine
+FROM docker.io/library/golang:alpine as builder
 
 RUN apk update && \
     apk add --no-cache openssl binutils && \
@@ -13,4 +13,13 @@ WORKDIR /code
 COPY . .
 RUN go build main.go && strip main
 
-CMD ["/code/main"]
+FROM docker.io/library/alpine
+
+RUN mkdir -p /code && \
+    mkdir -p /certs
+
+WORKDIR /code
+COPY --from=builder /code/main apiServer
+COPY --from=builder /certs/* /certs
+
+CMD ["/code/apiServer"]
