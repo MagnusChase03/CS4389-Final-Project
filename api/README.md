@@ -14,7 +14,7 @@ functionallity of an end-to-end encrypted group messenger.*
 To build the application:
 
 ```
-$ sudo podman build -t localhost/cs4389-project-api .
+$ sudo podman build -t localhost/cs4389-api -f ./Dockerfile ../
 ```
 
 ## Usage
@@ -22,14 +22,14 @@ $ sudo podman build -t localhost/cs4389-project-api .
 To run the API:
 
 ```
-$ sudo podman run --env-file ../.env --name cs4389-project-api -p 8080:8080 \
-  -d localhost/cs4389-project-api
+$ sudo podman run --env-file ../.env --name cs4389-api -p 8081:8080 \
+  -d localhost/cs4389-api
 ```
 
 To stop the API:
 
 ```
-$ sudo podman stop cs4389-project-api
+$ sudo podman stop cs4389-api
 ```
 
 ## Documentation

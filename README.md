@@ -18,7 +18,7 @@ To run the entire application stack:
 sudo podman-compose up -d
 ```
 
-The application will be available at https://localhost:8080.
+The application will be available at http://localhost:8080.
 
 ## Tech Stack
 
