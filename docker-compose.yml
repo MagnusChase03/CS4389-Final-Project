@@ -9,3 +9,6 @@ services:
     env_file: .env
     ports:
       - "8080:443"
+  redis:
+    image: "localhost/cs4389-redis"
+    env_file: .env
