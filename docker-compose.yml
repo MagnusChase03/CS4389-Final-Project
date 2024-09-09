@@ -1,0 +1,11 @@
+services:
+  api:
+    image: "localhost/cs4389-api"
+    env_file: .env
+    ports:
+      - "8081:8080"
+  webapp:
+    image: "localhost/cs4389-webapp"
+    env_file: .env
+    ports:
+      - "8080:80"
