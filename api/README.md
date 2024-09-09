@@ -48,6 +48,7 @@ $ sudo podman stop cs4389-api
 
 ```JSON
 {
-    "status": "ok"
+    "StatusCode": 200,
+    "Data": "ok"
 }
 ```
