@@ -17,7 +17,7 @@ RUN mkdir -p /code && \
 
 # Copy over needed files from builder
 WORKDIR /code
-COPY ./certs/ /certs
+COPY ./certs/server.* /certs
 COPY --from=builder /code/main apiServer
 
 CMD ["/code/apiServer"]

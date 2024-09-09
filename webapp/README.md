@@ -16,7 +16,7 @@ $ sudo podman build -t localhost/cs4389-webapp -f ./Dockerfile ../
 To run the API:
 
 ```
-$ sudo podman run --env-file ../.env --name cs4389-webapp -p 8080:80 \
+$ sudo podman run --env-file ../.env --name cs4389-webapp -p 8080:443 \
   -d localhost/cs4389-webapp
 ```
 
