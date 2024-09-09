@@ -8,4 +8,4 @@ services:
     image: "localhost/cs4389-webapp"
     env_file: .env
     ports:
-      - "8080:80"
+      - "8080:443"
