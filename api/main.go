@@ -1,7 +1,7 @@
 /* =========================================================================
 *  File Name: main.go
 *  Description: Starts the HTTP API and hands off requests.
-*  Author: MagnusChase03
+*  Author: MagnusChase03, Matthew
 *  =======================================================================*/
 package main
 
