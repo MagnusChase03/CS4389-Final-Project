@@ -12,9 +12,17 @@ import (
 
     "github.com/MagnusChase03/CS4389-Project/routes"
     "github.com/MagnusChase03/CS4389-Project/middleware"
+    "github.com/MagnusChase03/CS4389-Project/db"
 )
 
 func main() {
+    // Connect to databases
+    _, err := db.GetRedisDB();
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "[ERROR] Failed to connect to Redis DB. %v\n", err);
+        return;
+    }
+
     mux := http.NewServeMux();
 
     // Assign routes
