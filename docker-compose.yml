@@ -4,8 +4,58 @@ services:
     env_file: .env
     ports:
       - "8081:8080"
+    restart: always
+    depends_on:
+      redis:
+        condition: service_healthy
+      mariadb:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-k", "localhost:8080/healthcheck"]
+      interval: 30s
+      timeout: 2s
+      retries: 3
+      start_period: 5s
+      start_interval: 1s
   webapp:
     image: "localhost/cs4389-webapp"
     env_file: .env
     ports:
       - "8080:443"
+    restart: always
+    depends_on:
+      api:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-k", "localhost:443"]
+      interval: 30s
+      timeout: 2s
+      retries: 3
+      start_period: 5s
+      start_interval: 1s
+  redis:
+    image: "localhost/cs4389-redis"
+    env_file: .env
+    restart: always
+    healthcheck:
+      test: ["CMD", "redis-cli", "--raw", "incr", "ping"]
+      interval: 30s
+      timeout: 1s
+      retries: 3
+      start_period: 5s
+      start_interval: 1s
+  mariadb:
+    image: "localhost/cs4389-mariadb"
+    env_file: .env
+    restart: always
+    healthcheck:
+      test: ["CMD", "/usr/local/bin/healthcheck.sh", "--su-mysql", "--connect", "--innodb_initialized"]
+      interval: 30s
+      timeout: 1s
+      retries: 3
+      start_period: 20s
+      start_interval: 1s
+    volumes:
+      - type: bind
+        source: ./databases/mariadb/data
+        target: /var/lib/mysql

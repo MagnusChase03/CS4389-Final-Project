@@ -18,6 +18,12 @@ To run the entire application stack:
 sudo podman-compose up -d
 ```
 
+To stop the entire application stack:
+
+```
+$ sudo podman-compose down
+```
+
 The application will be available at https://localhost:8080.
 
 ## Tech Stack

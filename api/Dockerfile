@@ -7,10 +7,17 @@ RUN apk update && \
 
 # Copy over code and build the application
 WORKDIR /code
+COPY ./api/go.mod ./api/go.sum ./
+RUN go mod download
+
 COPY ./api/ .
 RUN go build main.go && strip main
 
 FROM docker.io/library/alpine
+
+# Install deps for healthcheck
+RUN apk update && \
+    apk add --no-cache curl
 
 RUN mkdir -p /code && \
     mkdir -p /certs
