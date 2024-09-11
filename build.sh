@@ -20,3 +20,4 @@ function buildContainer() {
 buildContainer api ./api
 buildContainer webapp ./webapp
 buildContainer redis ./databases/redis
+buildContainer mariadb ./databases/mariadb
