@@ -5,17 +5,20 @@ services:
     ports:
       - "8081:8080"
     restart: always
+    command: ["sh", "-c", "sleep 10 && /code/apiServer"]
     depends_on:
       redis:
         condition: service_healthy
+        required: true
       mariadb:
         condition: service_healthy
+        required: true
     healthcheck:
       test: ["CMD", "curl", "-k", "localhost:8080/healthcheck"]
       interval: 30s
       timeout: 2s
       retries: 3
-      start_period: 5s
+      start_period: 10s
       start_interval: 1s
   webapp:
     image: "localhost/cs4389-webapp"
@@ -26,6 +29,7 @@ services:
     depends_on:
       api:
         condition: service_healthy
+        required: true
     healthcheck:
       test: ["CMD", "curl", "-k", "localhost:443"]
       interval: 30s
@@ -50,11 +54,11 @@ services:
     restart: always
     healthcheck:
       test: ["CMD", "/usr/local/bin/healthcheck.sh", "--su-mysql", "--connect", "--innodb_initialized"]
-      interval: 30s
+      interval: 10s
       timeout: 1s
       retries: 3
-      start_period: 20s
-      start_interval: 1s
+      start_period: 0s
+      start_interval: 0s
     volumes:
       - type: bind
         source: ./databases/mariadb/data

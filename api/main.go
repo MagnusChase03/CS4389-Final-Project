@@ -23,6 +23,12 @@ func main() {
         return;
     }
 
+    _, err = db.GetMariaDB();
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "[ERROR] Failed to connect to MariaDB. %v\n", err);
+        return;
+    }
+
     mux := http.NewServeMux();
 
     // Assign routes
