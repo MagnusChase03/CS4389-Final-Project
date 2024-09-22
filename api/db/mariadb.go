@@ -37,7 +37,7 @@ func GetMariaDB() (*MariaDB, error) {
         return mariaInstance, nil;
     }
 
-    mutex.Lock();
+    mariaMutex.Lock();
     if mariaInstance == nil {
         env := utils.GetEnvironment();
 
@@ -50,12 +50,12 @@ func GetMariaDB() (*MariaDB, error) {
             ),
         );
         if err != nil {
-            mutex.Unlock();
+            mariaMutex.Unlock();
             return nil, fmt.Errorf("[ERROR] Failed to connect to mariadb. %w", err);
         }
 
         mariaInstance = &MariaDB{con};
     }
-    mutex.Unlock();
+    mariaMutex.Unlock();
     return mariaInstance, nil;
 }
