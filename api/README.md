@@ -5,6 +5,10 @@ functionallity of an end-to-end encrypted group messenger.*
 
 ## Table of Contents
 
+**Auth**
+
+- [Login](#login)
+
 **Misc.**
 
 - [Healthcheck](#healthcheck)
@@ -49,6 +53,46 @@ $ sudo podman stop cs4389-api
 ```JSON
 {
     "StatusCode": 200,
-    "Data": "ok"
+    "Data": "Ok"
+}
+```
+
+### /login
+
+*Route to login a user.*
+
+**Method**: `POST`
+
+**Body**: `username`, `password`
+
+**Example**: `https://api.application.com/login`
+
+**Returns**: `200`, `401`, `400`, `500`
+
+```JSON
+{
+    "StatusCode": 200,
+    "Data": "Ok"
+}
+```
+
+```JSON
+{
+    "StatusCode": 400,
+    "Data": "Bad Request"
+}
+```
+
+```JSON
+{
+    "StatusCode": 401,
+    "Data": "Invalid username or password."
+}
+```
+
+```JSON
+{
+    "StatusCode": 500,
+    "Data": "Internal Server Error"
 }
 ```

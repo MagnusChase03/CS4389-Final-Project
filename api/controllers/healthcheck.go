@@ -21,6 +21,6 @@ import (
 func HealthcheckController() utils.JSONResponse { 
     return utils.JSONResponse{
         StatusCode: 200,
-        Data: "ok",
+        Data: "Ok",
     };
 }

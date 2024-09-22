@@ -36,6 +36,6 @@ func LoginController(username string, passwordHash string) (utils.JSONResponse, 
 
     return utils.JSONResponse{
         StatusCode: 200,
-        Data: "ok",
+        Data: "Ok",
     }, user, nil;
 }
