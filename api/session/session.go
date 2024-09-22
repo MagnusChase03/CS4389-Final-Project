@@ -87,6 +87,10 @@ func ParseUserCookie(value string) (int, string, error) {
     }
 
     nonceSize := gcm.NonceSize();
+    if len(ciphertext) < nonceSize {
+        return 0, "", fmt.Errorf("[ERROR] Failed to decrypt ciphertext.\n");
+    }
+
     nonce, data := ciphertext[:nonceSize], ciphertext[nonceSize:]
     plaintext, err := gcm.Open(nil, nonce, data, nil);
     if err != nil {
