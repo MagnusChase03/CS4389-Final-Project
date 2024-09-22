@@ -16,10 +16,14 @@ import (
 *  Determines if a user with given credentials is correct.
 *
 *  Arguments:
-*      - N/A
+*      - username (string): The username to login to.
+*      - passwordHash (string): The password hash to use to login.
 * 
 *  Returns:
 *      - utils.JSONResponse: The response to be made to the client.
+*      - models.User: The information of the logged in user.
+*      - error: An error if any occurred.
+*
 */
 func LoginController(username string, passwordHash string) (utils.JSONResponse, models.User, error) { 
     user, err := models.GetUserByCreds(username, passwordHash); 
