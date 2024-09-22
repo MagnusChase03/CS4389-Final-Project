@@ -9,10 +9,10 @@ import (
     "os"
     "fmt"
     "net/http"
-    "time"
 
     "github.com/MagnusChase03/CS4389-Project/utils"
     "github.com/MagnusChase03/CS4389-Project/controllers"
+    "github.com/MagnusChase03/CS4389-Project/session"
 )
 
 /*
@@ -48,11 +48,11 @@ func LoginHandler(w http.ResponseWriter, r *http.Request) {
     if err != nil {
         fmt.Fprintf(os.Stderr, "[ERROR] %v\n", err);
     } else {
-        cookie := http.Cookie{
-            Name: "authCookie",
-            Value: fmt.Sprintf("%d-%s", user.UserID, user.Username),
-            Expires: time.Now().Add(time.Hour),
-        };
+        cookie, err := session.CreateUserCookie(user);
+        if err != nil {
+            utils.SendInternalServerError(w, err);
+            return;
+        }
         http.SetCookie(w, &cookie);
     }
 

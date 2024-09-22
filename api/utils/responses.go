@@ -1,6 +1,6 @@
 /* =========================================================================
-*  File Name: utils/utils.go
-*  Description: A file containing common functions for all modules.
+*  File Name: utils/responses.go
+*  Description: A file containing common response functions for all modules.
 *  Author: MagnusChase03
 *  =======================================================================*/
 package utils
@@ -10,7 +10,6 @@ import (
     "fmt"
     "net/http"
     "os"
-    "strings"
 )
 
 // Struct for consistant response format.
@@ -59,6 +58,24 @@ func SendInternalServerError(w http.ResponseWriter, e error) {
 }
 
 /*
+*  Sends a response for an unauthorized request.
+*
+*  Arguments:
+*      - w (http.ResponseWriter): The object used to write a response to the client.
+* 
+*  Returns:
+*      - N/A
+*/
+func SendUnauthorizedRequest(w http.ResponseWriter) {
+    w.Header().Set("Content-Type", "application/json");
+    w.WriteHeader(http.StatusInternalServerError);
+    _ = json.NewEncoder(w).Encode(JSONResponse{
+        StatusCode: 401,
+        Data: "Unauthorized",
+    });
+}
+
+/*
 *  Sends a response for a bad request.
 *
 *  Arguments:
@@ -74,22 +91,4 @@ func SendBadRequest(w http.ResponseWriter) {
         StatusCode: 400,
         Data: "Bad Request",
     });
-}
-
-/*
-*  Retuns a map of environment variables
-*
-*  Arguments:
-*      - N/A
-* 
-*  Returns:
-*      - map[string]string: The mapping of environment variables
-*/
-func GetEnvironment() map[string]string {
-    result := make(map[string]string);
-    for _, e := range os.Environ() {
-        pair := strings.Split(e, "=");
-        result[pair[0]] = pair[1];
-    }
-    return result;
 }
