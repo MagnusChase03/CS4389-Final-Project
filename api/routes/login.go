@@ -9,6 +9,8 @@ import (
     "os"
     "fmt"
     "net/http"
+    "crypto/sha256"
+    "encoding/hex"
 
     "github.com/MagnusChase03/CS4389-Project/utils"
     "github.com/MagnusChase03/CS4389-Project/controllers"
@@ -43,6 +45,14 @@ func LoginHandler(w http.ResponseWriter, r *http.Request) {
         utils.SendBadRequest(w);
         return;
     }
+
+    hasher := sha256.New();
+    _, err = hasher.Write([]byte(password));
+    if err != nil {
+        utils.SendInternalServerError(w, err);
+        return;
+    }
+    password = hex.EncodeToString(hasher.Sum(nil));
 
     resp, user, err := controllers.LoginController(username, password);
     if err != nil {
