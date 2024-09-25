@@ -8,6 +8,7 @@ functionallity of an end-to-end encrypted group messenger.*
 **Auth**
 
 - [Login](#login)
+- [Logout](#logout)
 
 **Misc.**
 
@@ -94,5 +95,38 @@ $ sudo podman stop cs4389-api
 {
     "StatusCode": 500,
     "Data": "Internal Server Error"
+}
+```
+
+### /logout
+
+*Route to logout a user.*
+
+**Method**: `POST`
+
+**Body**: N/A
+
+**Example**: `https://api.application.com/logout`
+
+**Returns**: `200`, `401`, `400`
+
+```JSON
+{
+    "StatusCode": 200,
+    "Data": "Ok"
+}
+```
+
+```JSON
+{
+    "StatusCode": 400,
+    "Data": "Bad Request"
+}
+```
+
+```JSON
+{
+    "StatusCode": 401,
+    "Data": "Unauthorized"
 }
 ```
