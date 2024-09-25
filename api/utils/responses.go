@@ -1,6 +1,6 @@
 /* =========================================================================
-*  File Name: utils/utils.go
-*  Description: A file containing common functions for all modules.
+*  File Name: utils/responses.go
+*  Description: A file containing common response functions for all modules.
 *  Author: MagnusChase03
 *  =======================================================================*/
 package utils
@@ -10,7 +10,6 @@ import (
     "fmt"
     "net/http"
     "os"
-    "strings"
 )
 
 // Struct for consistant response format.
@@ -31,6 +30,7 @@ type JSONResponse struct {
 */
 func SendResponse(w http.ResponseWriter, data JSONResponse) error {
     w.Header().Set("Content-Type", "application/json");
+    w.WriteHeader(data.StatusCode);
     if err := json.NewEncoder(w).Encode(data); err != nil {
         return fmt.Errorf("[ERROR] Failed to encode response into JSON. %w", err);
     } 
@@ -49,29 +49,46 @@ func SendResponse(w http.ResponseWriter, data JSONResponse) error {
 func SendInternalServerError(w http.ResponseWriter, e error) {
     fmt.Fprintf(os.Stderr, "[ERROR] %v\n", e)
 
-    w.WriteHeader(http.StatusInternalServerError);
     w.Header().Set("Content-Type", "application/json");
+    w.WriteHeader(http.StatusInternalServerError);
     _ = json.NewEncoder(w).Encode(JSONResponse{
         StatusCode: 500,
         Data: "Internal Server Error",
     });
 }
 
-
 /*
-*  Retuns a map of environment variables
+*  Sends a response for an unauthorized request.
 *
 *  Arguments:
-*      - N/A
+*      - w (http.ResponseWriter): The object used to write a response to the client.
 * 
 *  Returns:
-*      - map[string]string: The mapping of environment variables
+*      - N/A
 */
-func GetEnvironment() map[string]string {
-    result := make(map[string]string);
-    for _, e := range os.Environ() {
-        pair := strings.Split(e, "=");
-        result[pair[0]] = pair[1];
-    }
-    return result;
+func SendUnauthorizedRequest(w http.ResponseWriter) {
+    w.Header().Set("Content-Type", "application/json");
+    w.WriteHeader(http.StatusInternalServerError);
+    _ = json.NewEncoder(w).Encode(JSONResponse{
+        StatusCode: 401,
+        Data: "Unauthorized",
+    });
+}
+
+/*
+*  Sends a response for a bad request.
+*
+*  Arguments:
+*      - w (http.ResponseWriter): The object used to write a response to the client.
+* 
+*  Returns:
+*      - N/A
+*/
+func SendBadRequest(w http.ResponseWriter) {
+    w.Header().Set("Content-Type", "application/json");
+    w.WriteHeader(http.StatusBadRequest);
+    _ = json.NewEncoder(w).Encode(JSONResponse{
+        StatusCode: 400,
+        Data: "Bad Request",
+    });
 }

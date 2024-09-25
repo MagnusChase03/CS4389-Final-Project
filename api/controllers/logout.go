@@ -1,6 +1,6 @@
 /* =========================================================================
-*  File Name: controller/healthcheck.go
-*  Description: Controller for the healthcheck route.
+*  File Name: controller/logout.go
+*  Description: Controller for the logout route.
 *  Author: MagnusChase03
 *  =======================================================================*/
 package controllers
@@ -10,7 +10,7 @@ import (
 )
 
 /*
-*  Sends simple ok for API healthcheck.
+*  Sends simple ok for logout..
 *
 *  Arguments:
 *      - N/A
@@ -18,7 +18,7 @@ import (
 *  Returns:
 *      - utils.JSONResponse: The response to be made to the client.
 */
-func HealthcheckController() utils.JSONResponse { 
+func LogoutController() utils.JSONResponse { 
     return utils.JSONResponse{
         StatusCode: 200,
         Data: "Ok",

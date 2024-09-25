@@ -52,3 +52,46 @@ func GetUserByID(id int) (User, error) {
 
     return user, nil;
 }
+
+/*
+*  Returns a user with given username and password.
+*
+*  Arguments:
+*      - username (string): The username to match against.
+*      - passwordHash (string): The password for the given user.
+*
+*  Returns:
+*      - User: The user information.
+*      - error: An error if any occurred.
+*/
+func GetUserByCreds(username string, passwordHash string) (User, error) {
+    var user User;
+    instance, err := db.GetMariaDB();
+    if err != nil {
+        return user, fmt.Errorf("[ERROR] Failed to get mariadb instance. %w", err);
+    }
+
+    query, err := instance.Connection.Prepare(
+        "SELECT * FROM Users WHERE Username = ? AND PasswordHash = ?",
+    )
+    if err != nil {
+        return user, fmt.Errorf("[ERROR] Failed to get parse SQL query. %w", err);
+    }
+    defer query.Close();
+
+    err = query.QueryRow(username, passwordHash).Scan(
+        &user.UserID, 
+        &user.Username, 
+        &user.PasswordHash, 
+        &user.PublicKey,
+    );
+    if err != nil {
+        return user, fmt.Errorf(
+            "[ERROR] Failed to find user %s with matching credentials. %w", 
+            username, 
+            err,
+        );
+    }
+
+    return user, nil;
+}
