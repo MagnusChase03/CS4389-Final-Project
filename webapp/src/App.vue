@@ -1,20 +1,14 @@
 <script setup>
 import Navbar from './components/Navbar.vue';
-import { ref } from 'vue';
+import LoginPage from './components/user/Login.vue';
 
-let status = ref("");
-fetch(import.meta.env.VITE_API_URL + "/healthcheck").then((resp) => resp.json()).then((json) => {
-    status.value = json.Data;
-});
+let currentPage = "login";
 </script>
 
 <template>
 <Navbar/>
-<h1>Status: {{ status }}</h1>
+<LoginPage v-if="currentPage" />
 </template>
 
 <style scoped>
-h1 {
-    color: orange;
-}
 </style>

@@ -35,6 +35,7 @@ func LoginHandler(w http.ResponseWriter, r *http.Request) {
 
     err := r.ParseForm();
     if err != nil {
+        fmt.Printf("[ERROR] Failed to parse form.\n");
         utils.SendBadRequest(w);
         return;
     }
@@ -42,6 +43,7 @@ func LoginHandler(w http.ResponseWriter, r *http.Request) {
     username := r.FormValue("username");
     password := r.FormValue("password");
     if username == "" || password == "" {
+        fmt.Printf("[ERROR] username of password empty.\n");
         utils.SendBadRequest(w);
         return;
     }
