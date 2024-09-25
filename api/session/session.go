@@ -59,6 +59,23 @@ func CreateUserCookie(user models.User) (http.Cookie, error) {
 }
 
 /*
+*  Deleted the user auth cookie, used for logout.
+*
+*  Arguments:
+*      - w (http.ResponseWriter): The response writer.
+*
+*  Returns:
+*      - N/A
+*/
+func DeleteUserCookie(w http.ResponseWriter) {
+    http.SetCookie(w, &http.Cookie{
+        Name: "authCookie",
+        Value: "",
+        Expires: time.Now(),
+    });
+}
+
+/*
 *  Returns the user information from an encrypted cookie value.
 *
 *  Arguments:
