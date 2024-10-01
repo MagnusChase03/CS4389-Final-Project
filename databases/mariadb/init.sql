@@ -4,8 +4,58 @@ CREATE TABLE Users(
     UserID int AUTO_INCREMENT,
     Username varchar(255) UNIQUE,
     PasswordHash varchar(255),
-    PublicKey varchar(5000) UNIQUE,
+    PublicKey TEXT(20000) UNIQUE,
     PRIMARY KEY (UserID)
+);
+
+CREATE TABLE Groups(
+    GroupID int AUTO_INCREMENT,
+    GroupName varchar(255),
+    PRIMARY KEY (GroupID)
+);
+
+CREATE TABLE UserGroup(
+    UserID int,
+    GroupID int,
+    PRIMARY KEY(UserID, GroupID),
+    FOREIGN KEY (UserID) REFERENCES Users(UserID)
+        ON DELETE CASCADE,
+    FOREIGN KEY (GroupID) REFERENCES Groups(GroupID)
+        ON DELETE CASCADE
+);
+
+CREATE TABLE Invites(
+    UserID int,
+    GroupID int,
+    EncryptedKey TEXT(20000),
+    PRIMARY KEY(UserID, GroupID),
+    FOREIGN KEY (UserID) REFERENCES Users(UserID)
+        ON DELETE CASCADE,
+    FOREIGN KEY (GroupID) REFERENCES Groups(GroupID)
+        ON DELETE CASCADE
+);
+
+CREATE TABLE Friends(
+    UserID int,
+    User2ID int,
+    PRIMARY KEY(UserID, User2ID),
+    FOREIGN KEY (UserID) REFERENCES Users(UserID)
+        ON DELETE CASCADE,
+    FOREIGN KEY (User2ID) REFERENCES Users(UserID)
+        ON DELETE CASCADE
+);
+
+CREATE TABLE Messages(
+    MessageID int AUTO_INCREMENT,
+    UserID int,
+    GroupID int,
+    Timestamp datetime,
+    EncryptedMessage TEXT(20000),
+    PRIMARY KEY(MessageID),
+    FOREIGN KEY (UserID) REFERENCES Users(UserID)
+        ON DELETE CASCADE,
+    FOREIGN KEY (GroupID) REFERENCES Groups(GroupID)
+        ON DELETE CASCADE
 );
 
 INSERT INTO Users(
