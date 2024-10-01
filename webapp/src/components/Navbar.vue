@@ -1,4 +1,14 @@
 <script setup>
+function logout() {
+    fetch(import.meta.env.VITE_API_URL + "/logout", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/x-www-form-urlencoded"
+        },
+        body: ``,
+        credentials: "include"
+    });
+}
 </script>
 
 <template>
@@ -23,7 +33,7 @@
 
             <div class="text-end">
                 <button type="button" class="btn btn-outline-light me-2">Login</button>
-                <button type="button" class="btn btn-warning">Sign-up</button>
+                <button type="button" class="btn btn-danger" @click.prevent="logout">Logout</button>
             </div>
         </div>
     </div>
