@@ -11,6 +11,7 @@ import (
     "net/http"
 
     "github.com/MagnusChase03/CS4389-Project/routes"
+    "github.com/MagnusChase03/CS4389-Project/routes/authRoutes"
     "github.com/MagnusChase03/CS4389-Project/middleware"
     "github.com/MagnusChase03/CS4389-Project/db"
 )
@@ -39,13 +40,13 @@ func main() {
     ));
 
     mux.Handle("/login", middleware.HandleWithMiddleware(
-        http.HandlerFunc(routes.LoginHandler),
+        http.HandlerFunc(authRoutes.LoginHandler),
         middleware.CorsMiddleware,
         middleware.LogMiddleware,
     ));
 
     mux.Handle("/logout", middleware.HandleWithMiddleware(
-        http.HandlerFunc(routes.LogoutHandler),
+        http.HandlerFunc(authRoutes.LogoutHandler),
         middleware.AuthMiddleware,
         middleware.CorsMiddleware,
         middleware.LogMiddleware,

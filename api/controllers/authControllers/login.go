@@ -3,7 +3,7 @@
 *  Description: Controller for the login route.
 *  Author: MagnusChase03
 *  =======================================================================*/
-package controllers
+package authControllers
 
 import (
     "fmt"

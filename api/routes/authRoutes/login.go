@@ -3,7 +3,7 @@
 *  Description: Handler for logging in users.
 *  Author: MagnusChase03
 *  =======================================================================*/
-package routes
+package authRoutes
 
 import (
     "os"
@@ -13,7 +13,7 @@ import (
     "encoding/hex"
 
     "github.com/MagnusChase03/CS4389-Project/utils"
-    "github.com/MagnusChase03/CS4389-Project/controllers"
+    "github.com/MagnusChase03/CS4389-Project/controllers/authControllers"
     "github.com/MagnusChase03/CS4389-Project/session"
 )
 
@@ -56,7 +56,7 @@ func LoginHandler(w http.ResponseWriter, r *http.Request) {
     }
     password = hex.EncodeToString(hasher.Sum(nil));
 
-    resp, user, err := controllers.LoginController(username, password);
+    resp, user, err := authControllers.LoginController(username, password);
     if err != nil {
         fmt.Fprintf(os.Stderr, "[ERROR] %v\n", err);
     } else {

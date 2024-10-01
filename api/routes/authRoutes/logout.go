@@ -3,13 +3,13 @@
 *  Description: Handler for logging out users.
 *  Author: MagnusChase03
 *  =======================================================================*/
-package routes
+package authRoutes
 
 import (
     "net/http"
 
     "github.com/MagnusChase03/CS4389-Project/utils"
-    "github.com/MagnusChase03/CS4389-Project/controllers"
+    "github.com/MagnusChase03/CS4389-Project/controllers/authControllers"
     "github.com/MagnusChase03/CS4389-Project/session"
 )
 
@@ -30,7 +30,7 @@ func LogoutHandler(w http.ResponseWriter, r *http.Request) {
     }
 
     session.DeleteUserCookie(w);
-    resp := controllers.LogoutController();
+    resp := authControllers.LogoutController();
     if err := utils.SendResponse(w, resp); err != nil {
         utils.SendInternalServerError(w, err);
     }

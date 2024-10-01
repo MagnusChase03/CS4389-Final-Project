@@ -3,7 +3,7 @@
 *  Description: Controller for the logout route.
 *  Author: MagnusChase03
 *  =======================================================================*/
-package controllers
+package authControllers
 
 import (
     "github.com/MagnusChase03/CS4389-Project/utils"

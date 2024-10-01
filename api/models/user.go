@@ -95,3 +95,37 @@ func GetUserByCreds(username string, passwordHash string) (User, error) {
 
     return user, nil;
 }
+
+/*
+*  Create a user in the database with given attributes.
+*
+*  Arguments:
+*      - username (string): The username of the user.
+*      - passwordHash (string): The hashed password for the user.
+*      - publicKey (string): The public key of the user.
+*  
+*  Returns:
+*      - error: An error if any occurred.
+*
+*/
+func CreateUser(username string, passwordHash string, publicKey string) error {
+    instance, err := db.GetMariaDB();
+    if err != nil {
+        return fmt.Errorf("[ERROR] Failed to get mariadb instance. %w", err);
+    }
+
+    insertStatement, err := instance.Connection.Prepare(
+        "INSERT INTO Users(Username, PasswordHash, PublicKey) VALUES (?, ?, ?)",
+    );
+    if err != nil {
+        return fmt.Errorf("[ERROR] Failed to parse SQL query. %w", err);
+    }
+    defer insertStatement.Close();
+
+    _, err = insertStatement.Exec(username, passwordHash, publicKey);
+    if err != nil {
+        return fmt.Errorf("[ERROR] Failed to create user. %w", err);
+    }
+
+    return nil;
+}
