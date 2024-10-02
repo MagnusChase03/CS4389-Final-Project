@@ -1,5 +1,5 @@
 /* =========================================================================
-*  File Name: controller/logout.go
+*  File Name: controller/authControllers/logout.go
 *  Description: Controller for the logout route.
 *  Author: MagnusChase03
 *  =======================================================================*/

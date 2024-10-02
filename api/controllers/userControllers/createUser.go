@@ -1,9 +1,9 @@
 /* =========================================================================
-*  File Name: controller/authControllers/login.go
+*  File Name: controller/userController/createUser.go
 *  Description: Controller for the login route.
 *  Author: MagnusChase03
 *  =======================================================================*/
-package authControllers
+package userControllers
 
 import (
     "fmt"
@@ -13,29 +13,29 @@ import (
 )
 
 /*
-*  Determines if a user with given credentials is correct.
+*  Attempts to create a new user with given attributes.
 *
 *  Arguments:
 *      - username (string): The username to login to.
 *      - passwordHash (string): The password hash to use to login.
+*      - publicKey (string): The public key of the user.
 * 
 *  Returns:
 *      - utils.JSONResponse: The response to be made to the client.
-*      - models.User: The information of the logged in user.
 *      - error: An error if any occurred.
 *
 */
-func LoginController(username string, passwordHash string) (utils.JSONResponse, models.User, error) { 
-    user, err := models.GetUserByCreds(username, passwordHash); 
+func CreateUserController(username string, passwordHash string, publicKey string) (utils.JSONResponse, error) { 
+    err := models.CreateUser(username, passwordHash, publicKey);
     if err != nil {
         return utils.JSONResponse{
             StatusCode: 401,
-            Data: "Invalid username or password.",
-        }, user, fmt.Errorf("[ERROR] Invalid username or password. %w", err);
+            Data: "Failed to create user.",
+        }, fmt.Errorf("[ERROR] Failed to create user. %w", err);
     }
 
     return utils.JSONResponse{
         StatusCode: 200,
         Data: "Ok",
-    }, user, nil;
+    }, nil;
 }

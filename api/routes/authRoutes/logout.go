@@ -1,5 +1,5 @@
 /* =========================================================================
-*  File Name: routes/logout.go
+*  File Name: routes/authRoutes/logout.go
 *  Description: Handler for logging out users.
 *  Author: MagnusChase03
 *  =======================================================================*/

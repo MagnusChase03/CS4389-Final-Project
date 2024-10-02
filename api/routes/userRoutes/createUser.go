@@ -1,9 +1,9 @@
 /* =========================================================================
-*  File Name: routes/authRoutes/login.go
+*  File Name: routes/userRoutes/createUser.go
 *  Description: Handler for logging in users.
 *  Author: MagnusChase03
 *  =======================================================================*/
-package authRoutes
+package userRoutes
 
 import (
     "os"
@@ -13,12 +13,11 @@ import (
     "encoding/hex"
 
     "github.com/MagnusChase03/CS4389-Project/utils"
-    "github.com/MagnusChase03/CS4389-Project/controllers/authControllers"
-    "github.com/MagnusChase03/CS4389-Project/session"
+    "github.com/MagnusChase03/CS4389-Project/controllers/userControllers"
 )
 
 /*
-*  Handles the control flow for the login route.
+*  Handles the control flow for the create user route.
 *
 *  Arguments:
 *      - w (http.ResponseWriter): The object that is used to write a response.
@@ -27,7 +26,7 @@ import (
 *  Returns:
 *      - N/A
 */
-func LoginHandler(w http.ResponseWriter, r *http.Request) { 
+func CreateUserHandler(w http.ResponseWriter, r *http.Request) { 
     if r.Method != "POST" {
         utils.SendBadRequest(w);
         return;
@@ -42,8 +41,9 @@ func LoginHandler(w http.ResponseWriter, r *http.Request) {
 
     username := r.FormValue("username");
     password := r.FormValue("password");
-    if username == "" || password == "" {
-        fmt.Printf("[ERROR] username of password empty.\n");
+    publicKey := r.FormValue("publicKey");
+    if username == "" || password == "" || publicKey == "" {
+        fmt.Printf("[ERROR] username, password, or public key empty.\n");
         utils.SendBadRequest(w);
         return;
     }
@@ -56,16 +56,9 @@ func LoginHandler(w http.ResponseWriter, r *http.Request) {
     }
     password = hex.EncodeToString(hasher.Sum(nil));
 
-    resp, user, err := authControllers.LoginController(username, password);
+    resp, err := userControllers.CreateUserController(username, password, publicKey);
     if err != nil {
         fmt.Fprintf(os.Stderr, "[ERROR] %v\n", err);
-    } else {
-        cookie, err := session.CreateUserCookie(user);
-        if err != nil {
-            utils.SendInternalServerError(w, err);
-            return;
-        }
-        http.SetCookie(w, &cookie);
     }
 
     if err := utils.SendResponse(w, resp); err != nil {
