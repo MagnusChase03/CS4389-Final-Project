@@ -4,6 +4,11 @@
 
 #!/bin/bash
 
+export CR='sudo podman'
+if [ $# -gt 0 ]; then
+    export CR=$1
+fi 
+
 # Build a specified container.
 # 
 # Arguments:
@@ -13,8 +18,9 @@
 # Returns:
 #     - N/A
 function buildContainer() {
-    sudo podman build -t localhost/cs4389-$1 -f $2/Dockerfile .
+    $CR build -t localhost/cs4389-$1 -f $2/Dockerfile .
 }
+
 
 # Build containers
 buildContainer api ./api

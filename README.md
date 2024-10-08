@@ -7,7 +7,7 @@
 To build the entire application stack:
 
 ```
-$ ./build.sh
+$ ./build.sh [docker]
 ```
 
 ## Usage
@@ -25,6 +25,13 @@ $ sudo podman-compose down
 ```
 
 The application will be available at https://localhost:8080.
+
+The docker equivalent is:
+
+```
+$ docker compose up -d
+$ docker compose down
+```
 
 ## Tech Stack
 

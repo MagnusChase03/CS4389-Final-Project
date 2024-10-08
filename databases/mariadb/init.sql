@@ -10,6 +10,7 @@ CREATE TABLE Users(
 
 CREATE TABLE Groups(
     GroupID int AUTO_INCREMENT,
+    CreatorID int,
     GroupName varchar(255),
     PRIMARY KEY (GroupID)
 );
