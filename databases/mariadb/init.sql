@@ -10,8 +10,11 @@ CREATE TABLE Users(
 
 CREATE TABLE Groups(
     GroupID int AUTO_INCREMENT,
+    CreatorID int,
     GroupName varchar(255),
-    PRIMARY KEY (GroupID)
+    PRIMARY KEY (GroupID),
+    FOREIGN KEY (CreatorID) REFERENCES Users(UserID)
+        ON DELETE CASCADE,
 );
 
 CREATE TABLE UserGroup(
@@ -77,3 +80,11 @@ INSERT INTO Users(
     'a7fa53aec98816e82823c7c04e6b01cc67e585213c5d71f2d58326e7513e4688',
     'rootpublickey'
 );
+
+INSERT INTO Groups(
+    CreatorID,
+    GroupName
+) VALUES(
+    1,
+    'partyPeople'
+)
