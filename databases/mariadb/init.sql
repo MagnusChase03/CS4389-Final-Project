@@ -12,7 +12,9 @@ CREATE TABLE Groups(
     GroupID int AUTO_INCREMENT,
     CreatorID int,
     GroupName varchar(255),
-    PRIMARY KEY (GroupID)
+    PRIMARY KEY (GroupID),
+    FOREIGN KEY (CreatorID) REFERENCES Users(UserID)
+        ON DELETE CASCADE
 );
 
 CREATE TABLE UserGroup(
