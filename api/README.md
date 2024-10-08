@@ -10,6 +10,10 @@ functionallity of an end-to-end encrypted group messenger.*
 - [Login](#login)
 - [Logout](#logout)
 
+**User**
+- [Create User](#usercreate)
+- [Delete User](#userdelete)
+
 **Misc.**
 
 - [Healthcheck](#healthcheck)
@@ -91,13 +95,6 @@ $ sudo podman stop cs4389-api
 }
 ```
 
-```JSON
-{
-    "StatusCode": 500,
-    "Data": "Internal Server Error"
-}
-```
-
 ### /logout
 
 *Route to logout a user.*
@@ -107,6 +104,65 @@ $ sudo podman stop cs4389-api
 **Body**: N/A
 
 **Example**: `https://api.application.com/logout`
+
+**Returns**: `200`, `401`, `400`
+
+```JSON
+{
+    "StatusCode": 200,
+    "Data": "Ok"
+}
+```
+
+```JSON
+{
+    "StatusCode": 400,
+    "Data": "Bad Request"
+}
+```
+
+```JSON
+{
+    "StatusCode": 401,
+    "Data": "Unauthorized"
+}
+```
+
+### /user/create
+
+*Route to create a new user.*
+
+**Method**: `POST`
+
+**Body**: `username`, `password`, `publicKey`
+
+**Example**: `https://api.application.com/user/create`
+
+**Returns**: `200`, `401`, `400`
+
+```JSON
+{
+    "StatusCode": 200,
+    "Data": "Ok"
+}
+```
+
+```JSON
+{
+    "StatusCode": 400,
+    "Data": "Bad Request"
+}
+```
+
+### /user/delete
+
+*Route to create a delete a user.*
+
+**Method**: `POST`
+
+**Body**: N/A
+
+**Example**: `https://api.application.com/user/delete`
 
 **Returns**: `200`, `401`, `400`
 
