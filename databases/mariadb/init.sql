@@ -14,7 +14,7 @@ CREATE TABLE Groups(
     GroupName varchar(255),
     PRIMARY KEY (GroupID),
     FOREIGN KEY (CreatorID) REFERENCES Users(UserID)
-        ON DELETE CASCADE,
+        ON DELETE CASCADE
 );
 
 CREATE TABLE UserGroup(

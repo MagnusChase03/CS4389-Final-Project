@@ -1,6 +1,6 @@
 /* =========================================================================
-*  File Name: routes/userRoutes/createUser.go
-*  Description: Handler for creating users.
+*  File Name: routes/userRoutes/deleteUser.go
+*  Description: Handler for deleting users.
 *  Author: MagnusChase03
 *  =======================================================================*/
 package userRoutes
@@ -9,10 +9,9 @@ import (
     "os"
     "fmt"
     "net/http"
-    "crypto/sha256"
-    "encoding/hex"
 
     "github.com/MagnusChase03/CS4389-Project/utils"
+    "github.com/MagnusChase03/CS4389-Project/session"
     "github.com/MagnusChase03/CS4389-Project/controllers/userControllers"
 )
 
@@ -26,37 +25,23 @@ import (
 *  Returns:
 *      - N/A
 */
-func CreateUserHandler(w http.ResponseWriter, r *http.Request) { 
+func DeletUserHander(w http.ResponseWriter, r *http.Request) { 
     if r.Method != "POST" {
         utils.SendBadRequest(w);
         return;
     }
 
-    err := r.ParseForm();
+    cookie, err := r.Cookie("authCookie");
     if err != nil {
-        fmt.Printf("[ERROR] Failed to parse form.\n");
-        utils.SendBadRequest(w);
-        return;
+        utils.SendUnauthorizedRequest();
     }
 
-    username := r.FormValue("username");
-    password := r.FormValue("password");
-    publicKey := r.FormValue("publicKey");
-    if username == "" || password == "" || publicKey == "" {
-        fmt.Printf("[ERROR] username, password, or public key empty.\n");
-        utils.SendBadRequest(w);
-        return;
-    }
-
-    hasher := sha256.New();
-    _, err = hasher.Write([]byte(password));
+    userID, _, err := session.ParseUserCookie(cookie.Value);
     if err != nil {
-        utils.SendInternalServerError(w, err);
-        return;
+        utils.SendUnauthorizedRequest();
     }
-    password = hex.EncodeToString(hasher.Sum(nil));
 
-    resp, err := userControllers.CreateUserController(username, password, publicKey);
+    resp, err := userControllers.DeleteUserController(userID);
     if err != nil {
         fmt.Fprintf(os.Stderr, "[ERROR] %v\n", err);
     }

@@ -59,6 +59,13 @@ func main() {
         middleware.LogMiddleware,
     ));
 
+    mux.Handle("/user/delete", middleware.HandleWithMiddleware(
+        http.HandlerFunc(userRoutes.DeletUserHander),
+        middleware.AuthMiddleware,
+        middleware.CorsMiddleware,
+        middleware.LogMiddleware,
+    ));
+
     // Start HTTPS server on port 8080
     fmt.Printf("[LOG] Starting API server on 0.0.0.0:8080.\n");
     if err := http.ListenAndServeTLS("0.0.0.0:8080", "/certs/server.crt", "/certs/server.key", mux); err != nil {

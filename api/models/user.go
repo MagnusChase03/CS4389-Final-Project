@@ -129,3 +129,35 @@ func CreateUser(username string, passwordHash string, publicKey string) error {
 
     return nil;
 }
+
+/*
+*  Delete a user in the database with given ID.
+*
+*  Arguments:
+*      - userID (int): The userID.
+*  
+*  Returns:
+*      - error: An error if any occurred.
+*
+*/
+func DeleteUser(userID int) error {
+    instance, err := db.GetMariaDB();
+    if err != nil {
+        return fmt.Errorf("[ERROR] Failed to get mariadb instance. %w", err);
+    }
+
+    deleteStatement, err := instance.Connection.Prepare(
+        "DELETE FROM Users WHERE UserID = ?",
+    );
+    if err != nil {
+        return fmt.Errorf("[ERROR] Failed to parse SQL query. %w", err);
+    }
+    defer deleteStatement.Close();
+
+    _, err = deleteStatement.Exec(userID);
+    if err != nil {
+        return fmt.Errorf("[ERROR] Failed to delete user. %w", err);
+    }
+
+    return nil;
+}
