@@ -34,17 +34,20 @@ func DeletUserHander(w http.ResponseWriter, r *http.Request) {
     cookie, err := r.Cookie("authCookie");
     if err != nil {
         utils.SendUnauthorizedRequest();
+        return;
     }
 
     userID, _, err := session.ParseUserCookie(cookie.Value);
     if err != nil {
         utils.SendUnauthorizedRequest();
+        return;
     }
 
     resp, err := userControllers.DeleteUserController(userID);
     if err != nil {
         fmt.Fprintf(os.Stderr, "[ERROR] %v\n", err);
     }
+    session.DeleteUserCookie(w);
 
     if err := utils.SendResponse(w, resp); err != nil {
         utils.SendInternalServerError(w, err);
