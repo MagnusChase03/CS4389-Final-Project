@@ -11,6 +11,7 @@ functionallity of an end-to-end encrypted group messenger.*
 - [Logout](#logout)
 
 **User**
+- [Get User](#userget)
 - [Create User](#usercreate)
 - [Delete User](#userdelete)
 
@@ -72,7 +73,7 @@ $ sudo podman stop cs4389-api
 
 **Example**: `https://api.application.com/login`
 
-**Returns**: `200`, `401`, `400`, `500`
+**Returns**: `200`, `401`, `400`
 
 ```JSON
 {
@@ -128,6 +129,34 @@ $ sudo podman stop cs4389-api
 }
 ```
 
+### /user/get
+
+*Route to get a users public key.*
+
+**Method**: `POST`
+
+**Body**: `username`
+
+**Example**: `https://api.application.com/user/get`
+
+**Returns**: `200`, `400`
+
+```JSON
+{
+    "StatusCode": 200,
+    "Data": {
+        "PublicKey": "supersecretpublickey"
+    }
+}
+```
+
+```JSON
+{
+    "StatusCode": 400,
+    "Data": "Bad Request"
+}
+```
+
 ### /user/create
 
 *Route to create a new user.*
@@ -138,7 +167,7 @@ $ sudo podman stop cs4389-api
 
 **Example**: `https://api.application.com/user/create`
 
-**Returns**: `200`, `401`, `400`
+**Returns**: `200`, `400`
 
 ```JSON
 {

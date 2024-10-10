@@ -1,6 +1,6 @@
 /* =========================================================================
-*  File Name: routes/userRoutes/deleteUser.go
-*  Description: Handler for deleting users.
+*  File Name: routes/userRoutes/getUser.go
+*  Description: Handler for getting public key of user.
 *  Author: MagnusChase03
 *  =======================================================================*/
 package userRoutes
@@ -11,12 +11,11 @@ import (
     "net/http"
 
     "github.com/MagnusChase03/CS4389-Project/utils"
-    "github.com/MagnusChase03/CS4389-Project/session"
     "github.com/MagnusChase03/CS4389-Project/controllers/userControllers"
 )
 
 /*
-*  Handles the control flow for the create user route.
+*  Handles the control flow for the get user route.
 *
 *  Arguments:
 *      - w (http.ResponseWriter): The object that is used to write a response.
@@ -25,29 +24,30 @@ import (
 *  Returns:
 *      - N/A
 */
-func DeletUserHander(w http.ResponseWriter, r *http.Request) { 
+func GetUserHandler(w http.ResponseWriter, r *http.Request) { 
     if r.Method != "POST" {
         utils.SendBadRequest(w);
         return;
     }
 
-    cookie, err := r.Cookie("authCookie");
+    err := r.ParseForm();
     if err != nil {
-        utils.SendUnauthorizedRequest(w);
+        fmt.Printf("[ERROR] Failed to parse form.\n");
+        utils.SendBadRequest(w);
         return;
     }
 
-    userID, _, err := session.ParseUserCookie(cookie.Value);
-    if err != nil {
-        utils.SendUnauthorizedRequest(w);
+    username := r.FormValue("username");
+    if username == "" {
+        fmt.Printf("[ERROR] username is empty.\n");
+        utils.SendBadRequest(w);
         return;
     }
 
-    resp, err := userControllers.DeleteUserController(userID);
+    resp, err := userControllers.GetUserController(username);
     if err != nil {
         fmt.Fprintf(os.Stderr, "[ERROR] %v\n", err);
     }
-    session.DeleteUserCookie(w);
 
     if err := utils.SendResponse(w, resp); err != nil {
         utils.SendInternalServerError(w, err);

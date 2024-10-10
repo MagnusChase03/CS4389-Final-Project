@@ -1,6 +1,6 @@
 /* =========================================================================
-*  File Name: controller/userController/createUser.go
-*  Description: Controller for creating a user.
+*  File Name: controller/userController/getUser.go
+*  Description: Controller for getting user public key.
 *  Author: MagnusChase03
 *  =======================================================================*/
 package userControllers
@@ -13,20 +13,18 @@ import (
 )
 
 /*
-*  Attempts to create a new user with given attributes.
+*  Attempts to get the users public key.
 *
 *  Arguments:
 *      - username (string): The username of the user.
-*      - passwordHash (string): The password hash to use for the user.
-*      - publicKey (string): The public key of the user.
 * 
 *  Returns:
 *      - utils.JSONResponse: The response to be made to the client.
 *      - error: An error if any occurred.
 *
 */
-func CreateUserController(username string, passwordHash string, publicKey string) (utils.JSONResponse, error) { 
-    err := models.CreateUser(username, passwordHash, publicKey);
+func GetUserController(username string) (utils.JSONResponse, error) { 
+    user, err := models.GetUserByUsername(username);
     if err != nil {
         return utils.JSONResponse{
             StatusCode: 401,
@@ -34,8 +32,13 @@ func CreateUserController(username string, passwordHash string, publicKey string
         }, fmt.Errorf("[ERROR] Failed to create user. %w", err);
     }
 
+    var responseStruct struct {
+        PublicKey string
+    };
+    responseStruct.PublicKey = user.PublicKey;
+
     return utils.JSONResponse{
         StatusCode: 200,
-        Data: "Ok",
+        Data: responseStruct,
     }, nil;
 }

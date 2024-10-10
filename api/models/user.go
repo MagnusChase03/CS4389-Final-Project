@@ -41,13 +41,49 @@ func GetUserByID(id int) (User, error) {
     defer query.Close();
 
     err = query.QueryRow(id).Scan(
-        &user.UserID, 
-        &user.Username, 
-        &user.PasswordHash, 
+        &user.UserID,
+        &user.Username,
+        &user.PasswordHash,
         &user.PublicKey,
     );
     if err != nil {
         return user, fmt.Errorf("[ERROR] Failed to find user with UserID %d. %w", id, err);
+    }
+
+    return user, nil;
+}
+
+/*
+*  Returns a user with given Username.
+*
+*  Arguments:
+*      - username (string): The Username to find.
+*
+*  Returns:
+*      - User: The user information.
+*      - error: An error if any occurred.
+*/
+func GetUserByUsername(username string) (User, error) {
+    var user User;
+    instance, err := db.GetMariaDB();
+    if err != nil {
+        return user, fmt.Errorf("[ERROR] Failed to get mariadb instance. %w", err);
+    }
+
+    query, err := instance.Connection.Prepare("SELECT * FROM Users WHERE Username = ?")
+    if err != nil {
+        return user, fmt.Errorf("[ERROR] Failed to get parse SQL query. %w", err);
+    }
+    defer query.Close();
+
+    err = query.QueryRow(username).Scan(
+        &user.UserID,
+        &user.Username,
+        &user.PasswordHash,
+        &user.PublicKey,
+    );
+    if err != nil {
+        return user, fmt.Errorf("[ERROR] Failed to find user with Username %d. %w", username, err);
     }
 
     return user, nil;
@@ -80,15 +116,15 @@ func GetUserByCreds(username string, passwordHash string) (User, error) {
     defer query.Close();
 
     err = query.QueryRow(username, passwordHash).Scan(
-        &user.UserID, 
-        &user.Username, 
-        &user.PasswordHash, 
+        &user.UserID,
+        &user.Username,
+        &user.PasswordHash,
         &user.PublicKey,
     );
     if err != nil {
         return user, fmt.Errorf(
-            "[ERROR] Failed to find user %s with matching credentials. %w", 
-            username, 
+            "[ERROR] Failed to find user %s with matching credentials. %w",
+            username,
             err,
         );
     }
