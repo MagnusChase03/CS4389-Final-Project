@@ -54,6 +54,12 @@ func main() {
         middleware.LogMiddleware,
     ));
 
+    mux.Handle("/user/get", middleware.HandleWithMiddleware(
+        http.HandlerFunc(userRoutes.GetUserHandler),
+        middleware.CorsMiddleware,
+        middleware.LogMiddleware,
+    ));
+
     mux.Handle("/user/create", middleware.HandleWithMiddleware(
         http.HandlerFunc(userRoutes.CreateUserHandler),
         middleware.CorsMiddleware,
