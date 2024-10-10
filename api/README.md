@@ -12,6 +12,7 @@ functionallity of an end-to-end encrypted group messenger.*
 
 **User**
 - [Get User](#userget)
+- [Update User](#userupdate)
 - [Create User](#usercreate)
 - [Delete User](#userdelete)
 
@@ -154,6 +155,41 @@ $ sudo podman stop cs4389-api
 {
     "StatusCode": 400,
     "Data": "Bad Request"
+}
+```
+
+### /user/update
+
+*Route to update user information.*
+
+**Method**: `POST`
+
+**Body**: `password` (optional), `publicKey` (optional)
+
+**Example**: `https://api.application.com/user/update`
+
+**Returns**: `200`, `400`, `401`
+
+```JSON
+{
+    "StatusCode": 200,
+    "Data": {
+        "PublicKey": "supersecretpublickey"
+    }
+}
+```
+
+```JSON
+{
+    "StatusCode": 400,
+    "Data": "Bad Request"
+}
+```
+
+```JSON
+{
+    "StatusCode": 401,
+    "Data": "Unauthorized"
 }
 ```
 

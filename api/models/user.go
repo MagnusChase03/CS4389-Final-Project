@@ -167,6 +167,68 @@ func CreateUser(username string, passwordHash string, publicKey string) error {
 }
 
 /*
+*  Update a user in the database with given attributes.
+*
+*  Arguments:
+*      - userID (int): The userID to update.
+*      - passwordHash (string): The hashed password for the user.
+*      - publicKey (string): The public key of the user.
+*  
+*  Returns:
+*      - error: An error if any occurred.
+*
+*/
+func UpdateUser(userID int, passwordHash string, publicKey string) error {
+    instance, err := db.GetMariaDB();
+    if err != nil {
+        return fmt.Errorf("[ERROR] Failed to get mariadb instance. %w", err);
+    }
+
+    if passwordHash == "" {
+        updateStatement, err := instance.Connection.Prepare(
+            "UPDATE Users SET PublicKey=? WHERE UserID=?",
+        );
+        if err != nil {
+            return fmt.Errorf("[ERROR] Failed to parse SQL query. %w", err);
+        }
+        defer updateStatement.Close();
+
+        _, err = updateStatement.Exec(publicKey, userID);
+        if err != nil {
+            return fmt.Errorf("[ERROR] Failed to update user. %w", err);
+        }
+    } else if publicKey == "" {
+        updateStatement, err := instance.Connection.Prepare(
+            "UPDATE Users SET PasswordHash=? WHERE UserID=?",
+        );
+        if err != nil {
+            return fmt.Errorf("[ERROR] Failed to parse SQL query. %w", err);
+        }
+        defer updateStatement.Close();
+
+        _, err = updateStatement.Exec(passwordHash, userID);
+        if err != nil {
+            return fmt.Errorf("[ERROR] Failed to update user. %w", err);
+        }
+    } else {
+        updateStatement, err := instance.Connection.Prepare(
+            "UPDATE Users SET PasswordHash=?, PublicKey=? WHERE UserID=?",
+        );
+        if err != nil {
+            return fmt.Errorf("[ERROR] Failed to parse SQL query. %w", err);
+        }
+        defer updateStatement.Close();
+
+        _, err = updateStatement.Exec(passwordHash, publicKey, userID);
+        if err != nil {
+            return fmt.Errorf("[ERROR] Failed to update user. %w", err);
+        }
+    }
+
+    return nil;
+}
+
+/*
 *  Delete a user in the database with given ID.
 *
 *  Arguments:
