@@ -73,7 +73,7 @@ func main() {
     ));
 
     mux.Handle("/user/delete", middleware.HandleWithMiddleware(
-        http.HandlerFunc(userRoutes.DeletUserHander),
+        http.HandlerFunc(userRoutes.DeleteUserHander),
         middleware.AuthMiddleware,
         middleware.CorsMiddleware,
         middleware.LogMiddleware,

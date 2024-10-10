@@ -25,7 +25,7 @@ import (
 *  Returns:
 *      - N/A
 */
-func DeletUserHander(w http.ResponseWriter, r *http.Request) { 
+func DeleteUserHander(w http.ResponseWriter, r *http.Request) { 
     if r.Method != "POST" {
         utils.SendBadRequest(w);
         return;
