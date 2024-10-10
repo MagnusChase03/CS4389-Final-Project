@@ -78,7 +78,7 @@ func CreateGroup(creatorID int, groupName string) error {
 
     _, err = insertStatement.Exec(creatorID, groupName);
     if err != nil {
-        return fmt.Errorf("[ERROR] Failed to create user. %w", err);
+        return fmt.Errorf("[ERROR] Failed to create group. %w", err);
     }
 
     return nil;
@@ -117,35 +117,35 @@ func DeleteGroup(groupname string) error {
 }
 
 /*
-*  Locates a group in the database with given creatorID.
+*  Locates a group in the database with given groupname.
 *
 *  Arguments:
-*      - creatorID (int): The creatorID.
+*      - groupname (string): The groupname.
 *  
 *  Returns:
 *      - error: An error if any occurred.
 *
 */
-func GetCreatorID(groupID int) (int, error) {
+func GetCreatorIDByGroupName(groupname string) (int, error) {
     var group Group;
     instance, err := db.GetMariaDB();
     if err != nil {
         return 0, fmt.Errorf("[ERROR] Failed to get mariadb instance. %w", err);
     }
 
-    query, err := instance.Connection.Prepare("SELECT * FROM Groups WHERE GroupID = ?")
+    query, err := instance.Connection.Prepare("SELECT * FROM Groups WHERE GroupName = ?")
     if err != nil {
         return 0, fmt.Errorf("[ERROR] Failed to get parse SQL query. %w", err);
     }
     defer query.Close();
 
-    err = query.QueryRow(groupID).Scan(
+    err = query.QueryRow(groupname).Scan(
         &group.GroupID, 
         &group.CreatorID, 
         &group.GroupName, 
     );
     if err != nil {
-        return 0, fmt.Errorf("[ERROR] Failed to find group with GroupID %d. %w", groupID, err);
+        return 0, fmt.Errorf("[ERROR] Failed to find group with GroupID %d. %w", groupname, err);
     }
 
     return group.CreatorID, nil;

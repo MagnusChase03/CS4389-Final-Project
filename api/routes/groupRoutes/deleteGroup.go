@@ -3,7 +3,7 @@
 *  Description: Handler for deleting users.
 *  Author: Matthew-Basinger
 *  =======================================================================*/
-package userRoutes
+package groupRoutes
 
 import (
     "os"
@@ -25,7 +25,7 @@ import (
 *  Returns:
 *      - N/A
 */
-func DeleteGroupHander(w http.ResponseWriter, r *http.Request) { 
+func DeleteGroupHandler(w http.ResponseWriter, r *http.Request) { 
     if r.Method != "POST" {
         utils.SendBadRequest(w);
         return;
@@ -50,7 +50,7 @@ func DeleteGroupHander(w http.ResponseWriter, r *http.Request) {
         return;
     }
 
-    resp, err := groupControllers.DeleteGroupController(groupname);
+    resp, err := groupControllers.DeleteGroupController(groupname,userID);
     if err != nil {
         fmt.Fprintf(os.Stderr, "[ERROR] %v\n", err);
     }

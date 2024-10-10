@@ -3,7 +3,7 @@
 *  Description: Controller for creating a group.
 *  Author: MagnusChase03
 *  =======================================================================*/
-package userControllers
+package groupControllers
 
 import (
     "fmt"

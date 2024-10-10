@@ -1,7 +1,7 @@
 /* =========================================================================
 *  File Name: main.go
 *  Description: Starts the HTTP API and hands off requests.
-*  Author: MagnusChase03, Matthew
+*  Author: MagnusChase03, Matthew-Basinger
 *  =======================================================================*/
 package main
 
@@ -67,7 +67,7 @@ func main() {
     ));
 
     mux.Handle("/user/delete", middleware.HandleWithMiddleware(
-        http.HandlerFunc(userRoutes.DeletUserHander),
+        http.HandlerFunc(userRoutes.DeleteUserHandler),
         middleware.AuthMiddleware,
         middleware.CorsMiddleware,
         middleware.LogMiddleware,
@@ -80,7 +80,7 @@ func main() {
     ));
 
     mux.Handle("/group/delete", middleware.HandleWithMiddleware(
-        http.HandlerFunc(groupRoutes.DeletGroupHander),
+        http.HandlerFunc(groupRoutes.DeleteGroupHandler),
         middleware.AuthMiddleware,
         middleware.CorsMiddleware,
         middleware.LogMiddleware,

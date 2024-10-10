@@ -3,7 +3,7 @@
 *  Description: Handler for creating groups.
 *  Author: Matthew-Basinger
 *  =======================================================================*/
-package userRoutes
+package groupRoutes
 
 import (
     "os"
@@ -26,7 +26,7 @@ import (
 *  Returns:
 *      - N/A
 */
-func CreateUserHandler(w http.ResponseWriter, r *http.Request) { 
+func CreateGroupHandler(w http.ResponseWriter, r *http.Request) { 
     if r.Method != "POST" {
         utils.SendBadRequest(w);
         return;
@@ -44,7 +44,7 @@ func CreateUserHandler(w http.ResponseWriter, r *http.Request) {
         return;
     }
 
-    err := r.ParseForm();
+    err = r.ParseForm();
     if err != nil {
         fmt.Printf("[ERROR] Failed to parse form.\n");
         utils.SendBadRequest(w);

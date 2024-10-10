@@ -3,7 +3,7 @@
 *  Description: Controller for deleting a user.
 *  Author: Matthew-Basinger
 *  =======================================================================*/
-package userControllers
+package groupControllers
 
 import (
     "fmt"
@@ -17,18 +17,32 @@ import (
 *
 *  Arguments:
 *      - groupname (string): The groupname.
+*	   - userID (int): The ID of the user
 * 
 *  Returns:
 *      - utils.JSONResponse: The response to be made to the client.
 *      - error: An error if any occurred.
 *
 */
-func DeleteGroupController(groupname string) (utils.JSONResponse, error) { 
-    err := models.DeleteGroup(groupname);
+func DeleteGroupController(groupname string, userID int) (utils.JSONResponse, error) { 
+	creatorID, err := models.GetCreatorIDByGroupName(groupname);
+	if err != nil {
+		return utils.JSONResponse{
+            StatusCode: 401,
+            Data: "Failed to delete group.",
+        }, fmt.Errorf("[ERROR] Failed to delete group. %w", err);
+	} else if creatorID != userID{
+		return utils.JSONResponse{
+            StatusCode: 401,
+            Data: "Failed to delete group.",
+        }, fmt.Errorf("[ERROR] Not group creator. %w", err);
+	}
+
+    err = models.DeleteGroup(groupname);
     if err != nil {
         return utils.JSONResponse{
             StatusCode: 401,
-            Data: "Failed to delete user.",
+            Data: "Failed to delete group.",
         }, fmt.Errorf("[ERROR] Failed to delete group. %w", err);
     }
 
