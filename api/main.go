@@ -13,6 +13,7 @@ import (
     "github.com/MagnusChase03/CS4389-Project/routes"
     "github.com/MagnusChase03/CS4389-Project/routes/authRoutes"
     "github.com/MagnusChase03/CS4389-Project/routes/userRoutes"
+    "github.com/MagnusChase03/CS4389-Project/routes/groupRoutes"
     "github.com/MagnusChase03/CS4389-Project/middleware"
     "github.com/MagnusChase03/CS4389-Project/db"
 )
@@ -61,6 +62,19 @@ func main() {
 
     mux.Handle("/user/delete", middleware.HandleWithMiddleware(
         http.HandlerFunc(userRoutes.DeletUserHander),
+        middleware.AuthMiddleware,
+        middleware.CorsMiddleware,
+        middleware.LogMiddleware,
+    ));
+
+    mux.Handle("/group/create", middleware.HandleWithMiddleware(
+        http.HandlerFunc(groupRoutes.CreateGroupHandler),
+        middleware.CorsMiddleware,
+        middleware.LogMiddleware,
+    ));
+
+    mux.Handle("/group/delete", middleware.HandleWithMiddleware(
+        http.HandlerFunc(groupRoutes.DeletGroupHander),
         middleware.AuthMiddleware,
         middleware.CorsMiddleware,
         middleware.LogMiddleware,
