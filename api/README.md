@@ -15,6 +15,10 @@ functionallity of an end-to-end encrypted group messenger.*
 - [Create User](#usercreate)
 - [Delete User](#userdelete)
 
+**Group**
+- [Create Group](#groupcreate)
+- [Delete Group](#groupdelete)
+
 **Misc.**
 
 - [Healthcheck](#healthcheck)
@@ -192,6 +196,65 @@ $ sudo podman stop cs4389-api
 **Body**: N/A
 
 **Example**: `https://api.application.com/user/delete`
+
+**Returns**: `200`, `401`, `400`
+
+```JSON
+{
+    "StatusCode": 200,
+    "Data": "Ok"
+}
+```
+
+```JSON
+{
+    "StatusCode": 400,
+    "Data": "Bad Request"
+}
+```
+
+```JSON
+{
+    "StatusCode": 401,
+    "Data": "Unauthorized"
+}
+```
+
+### /group/create
+
+*Route to create a new group.*
+
+**Method**: `POST`
+
+**Body**: `groupname`
+
+**Example**: `https://api.application.com/group/create`
+
+**Returns**: `200`, `400`
+
+```JSON
+{
+    "StatusCode": 200,
+    "Data": "Ok"
+}
+```
+
+```JSON
+{
+    "StatusCode": 400,
+    "Data": "Bad Request"
+}
+```
+
+### /user/delete
+
+*Route to create a delete a group.*
+
+**Method**: `POST`
+
+**Body**: `groupname`
+
+**Example**: `https://api.application.com/group/delete`
 
 **Returns**: `200`, `401`, `400`
 
