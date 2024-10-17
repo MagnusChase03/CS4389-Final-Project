@@ -1,9 +1,9 @@
 /* =========================================================================
-*  File Name: controller/login.go
+*  File Name: controller/authControllers/login.go
 *  Description: Controller for the login route.
 *  Author: MagnusChase03
 *  =======================================================================*/
-package controllers
+package authControllers
 
 import (
     "fmt"

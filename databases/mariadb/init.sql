@@ -10,8 +10,11 @@ CREATE TABLE Users(
 
 CREATE TABLE Groups(
     GroupID int AUTO_INCREMENT,
+    CreatorID int,
     GroupName varchar(255),
-    PRIMARY KEY (GroupID)
+    PRIMARY KEY (GroupID),
+    FOREIGN KEY (CreatorID) REFERENCES Users(UserID)
+        ON DELETE CASCADE
 );
 
 CREATE TABLE UserGroup(
@@ -24,7 +27,7 @@ CREATE TABLE UserGroup(
         ON DELETE CASCADE
 );
 
-CREATE TABLE Invites(
+CREATE TABLE GroupInvites(
     UserID int,
     GroupID int,
     EncryptedKey TEXT(20000),
@@ -32,6 +35,16 @@ CREATE TABLE Invites(
     FOREIGN KEY (UserID) REFERENCES Users(UserID)
         ON DELETE CASCADE,
     FOREIGN KEY (GroupID) REFERENCES Groups(GroupID)
+        ON DELETE CASCADE
+);
+
+CREATE TABLE FriendInvites(
+    UserID int,
+    User2ID int,
+    PRIMARY KEY(UserID, User2ID),
+    FOREIGN KEY (UserID) REFERENCES Users(UserID)
+        ON DELETE CASCADE,
+    FOREIGN KEY (User2ID) REFERENCES Users(UserID)
         ON DELETE CASCADE
 );
 
