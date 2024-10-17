@@ -27,7 +27,7 @@ func DeleteUserController(userID int) (utils.JSONResponse, error) {
     err := models.DeleteUser(userID);
     if err != nil {
         return utils.JSONResponse{
-            StatusCode: 401,
+            StatusCode: 400,
             Data: "Failed to delete user.",
         }, fmt.Errorf("[ERROR] Failed to delete user. %w", err);
     }

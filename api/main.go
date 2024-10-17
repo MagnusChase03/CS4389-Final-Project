@@ -13,6 +13,7 @@ import (
     "github.com/MagnusChase03/CS4389-Project/routes"
     "github.com/MagnusChase03/CS4389-Project/routes/authRoutes"
     "github.com/MagnusChase03/CS4389-Project/routes/userRoutes"
+    "github.com/MagnusChase03/CS4389-Project/routes/friendRoutes"
     "github.com/MagnusChase03/CS4389-Project/middleware"
     "github.com/MagnusChase03/CS4389-Project/db"
 )
@@ -73,7 +74,14 @@ func main() {
     ));
 
     mux.Handle("/user/delete", middleware.HandleWithMiddleware(
-        http.HandlerFunc(userRoutes.DeleteUserHander),
+        http.HandlerFunc(userRoutes.DeleteUserHandler),
+        middleware.AuthMiddleware,
+        middleware.CorsMiddleware,
+        middleware.LogMiddleware,
+    ));
+
+    mux.Handle("/user/friend/invite", middleware.HandleWithMiddleware(
+        http.HandlerFunc(friendRoutes.FriendRequestHandler),
         middleware.AuthMiddleware,
         middleware.CorsMiddleware,
         middleware.LogMiddleware,

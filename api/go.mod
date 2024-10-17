@@ -5,10 +5,12 @@ replace github.com/MagnusChase03/CS4389-Project/models => ./models
 replace github.com/MagnusChase03/CS4389-Project/routes => ./routes
 replace github.com/MagnusChase03/CS4389-Project/routes/authRoutes => ./routes/authRoutes
 replace github.com/MagnusChase03/CS4389-Project/routes/userRoutes => ./routes/userRoutes
+replace github.com/MagnusChase03/CS4389-Project/routes/friendRoutes => ./routes/friendRoutes
 
 replace github.com/MagnusChase03/CS4389-Project/controllers => ./controllers
 replace github.com/MagnusChase03/CS4389-Project/controllers/authControllers => ./controllers/authControllers
 replace github.com/MagnusChase03/CS4389-Project/controllers/userControllers => ./controllers/userControllers
+replace github.com/MagnusChase03/CS4389-Project/controllers/friendControllers => ./controllers/friendControllers
 
 replace github.com/MagnusChase03/CS4389-Project/middleware => ./middleware
 replace github.com/MagnusChase03/CS4389-Project/utils => ./utils

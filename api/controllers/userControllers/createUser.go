@@ -29,7 +29,7 @@ func CreateUserController(username string, passwordHash string, publicKey string
     err := models.CreateUser(username, passwordHash, publicKey);
     if err != nil {
         return utils.JSONResponse{
-            StatusCode: 401,
+            StatusCode: 400,
             Data: "Failed to create user.",
         }, fmt.Errorf("[ERROR] Failed to create user. %w", err);
     }

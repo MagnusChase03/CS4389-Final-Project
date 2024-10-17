@@ -29,7 +29,7 @@ func UpdateUserController(userID int, passwordHash string, publicKey string) (ut
     err := models.UpdateUser(userID, passwordHash, publicKey);
     if err != nil {
         return utils.JSONResponse{
-            StatusCode: 401,
+            StatusCode: 400,
             Data: "Failed to update user.",
         }, fmt.Errorf("[ERROR] Failed to update user. %w", err);
     }
