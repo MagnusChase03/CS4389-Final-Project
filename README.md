@@ -1,4 +1,4 @@
-# CS4389 Final Project
+# Silent Circle
 
 *A real time end-to-end encrypted scalable group messenger.*
 
